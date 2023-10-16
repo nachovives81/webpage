@@ -1,0 +1,8 @@
+{
+  "name": "Mi aplicación",
+  "short_name": "Mi app",
+  "start_url": "index.html",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
