@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mi aplicación</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Web</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #0073e6;
+            font-size: 2rem;
+        }
+
+        #hora {
+            font-size: 1.5rem;
+        }
+    </style>
 </head>
 <body>
-  <h1>Mi aplicación</h1>
-  <p>Este es el contenido de mi aplicación</p>
+    <div class="container">
+        <h1>HOLA MUNDO</h1>
+        <div id="hora"></div>
+    </div>
+
+    <script>
+        function mostrarHora() {
+            const horaActual = new Date();
+            const hora = String(horaActual.getHours()).padStart(2, '0');
+            const minutos = String(horaActual.getMinutes()).padStart(2, '0');
+            const segundos = String(horaActual.getSeconds()).padStart(2, '0');
+            const horaFormateada = `${hora}:${minutos}:${segundos}`;
+            document.getElementById('hora').textContent = `Hora actual: ${horaFormateada}`;
+        }
+
+        mostrarHora();
+        setInterval(mostrarHora, 1000); // Actualizar la hora cada segundo
+    </script>
 </body>
 </html>
