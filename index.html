@@ -22,14 +22,18 @@
         }
 
         #hora {
-            font-size: 1.5rem;
+            font-size: 2.5rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>HOLA MUNDO</h1>
-        <div id="hora"></div>
+        <h1><span id="hora"></span></h1>
+		<p>Hora</p>
+		
+		<h1><span id="velocidad">0</span></h1>
+		<p>Velocidad</p> 
+		<button onclick="activarGPS()">Activar GPS</button>
     </div>
 
     <script>
@@ -39,11 +43,25 @@
             const minutos = String(horaActual.getMinutes()).padStart(2, '0');
             const segundos = String(horaActual.getSeconds()).padStart(2, '0');
             const horaFormateada = `${hora}:${minutos}:${segundos}`;
-            document.getElementById('hora').textContent = `Hora actual: ${horaFormateada}`;
+            document.getElementById('hora').textContent = `${horaFormateada}`;
         }
 
         mostrarHora();
         setInterval(mostrarHora, 1000); // Actualizar la hora cada segundo
+		
+		
+		let velocidadElement = document.getElementById("velocidad");
+
+		function activarGPS() {
+		  if ("geolocation" in navigator) {
+			navigator.geolocation.watchPosition(function (position) {
+			  let velocidad = position.coords.speed || 0;
+			  velocidadElement.textContent = velocidad.toFixed(2) + " km/h";
+			});
+		  } else {
+			alert("El GPS no está disponible en este dispositivo o navegador.");
+		  }
+		}
     </script>
 </body>
 </html>

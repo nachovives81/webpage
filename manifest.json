@@ -1,6 +1,6 @@
 {
-  "name": "Mi PWA",
-  "short_name": "Mi App",
+  "name": "Nacho's app",
+  "short_name": "Nacho's App",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
