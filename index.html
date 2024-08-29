@@ -1,3 +1,4 @@
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,73 +9,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-	<!--
-  <div class="container">
-        <h1><span id="hora"></span></h1>
-		<p>Hora</p>
-		
-		<h1><span id="velocidad">0</span></h1>
-		<p>km/h</p> 		
-    </div>
-	-->
-	<iframe src="myFlipbook.net/flipbook.htm" width="100%" height="90%" style="border:none; padding-top: 50px;"></iframe>
+
+<iframe src="myFlipbook.net/flipbook.htm" width="100%" height="90%" style="border:none; padding-top: 50px;"></iframe>
 
 
-  <script>
-    // Obtiene las coordenadas de la ubicación actual
-    navigator.geolocation.getCurrentPosition(function(position) {
-      // Calcula la velocidad
-      const velocidad = calcularVelocidad(
-        position.coords.latitude,
-        position.coords.longitude,
-        position.coords.latitude,
-        position.coords.longitude,
-        1
-      );
-
-      // Muestra la velocidad en pantalla
-      $(document).ready(function() {
-        $("#velocidad").text(velocidad);
-      });
-    });
-
-    // Función para calcular la velocidad
-    function calcularVelocidad(lat1, lon1, lat2, lon2, tiempo) {
-      // Calcula la distancia entre los dos puntos en kilómetros
-      const distancia = haversine(lat1, lon1, lat2, lon2);
-
-      // Calcula el tiempo en segundos
-      const tiempoEnSegundos = tiempo * 3600;
-
-      // Calcula la velocidad en kilómetros por hora
-      const velocidad = distancia / tiempoEnSegundos;
-
-      // Devuelve la velocidad en kilómetros por hora
-      return velocidad;
-    }
-
-    // Función para calcular la distancia entre dos puntos usando el algoritmo de Haversine
-    function haversine(lat1, lon1, lat2, lon2) {
-      // Obtiene las coordenadas en radianes
-      const lat1Rad = lat1 * Math.PI / 180;
-      const lon1Rad = lon1 * Math.PI / 180;
-      const lat2Rad = lat2 * Math.PI / 180;
-      const lon2Rad = lon2 * Math.PI / 180;
-
-      // Calcula la diferencia de longitud
-      const deltaLon = lon2Rad - lon1Rad;
-
-      // Calcula el semiperímetro del triángulo
-      const semiPerimetro = Math.sqrt(
-        Math.pow(lat1Rad - lat2Rad, 2) + Math.pow(deltaLon, 2)
-      );
-
-      // Calcula la distancia entre los dos puntos
-      const distancia = 2 * Math.asin(Math.sqrt(Math.pow(semiPerimetro, 2) - Math.pow(Math.sin(lat1Rad - lat2Rad) / 2, 2)));
-
-      // Devuelve la distancia en kilómetros
-      return distancia * 6371;
-    }
-  </script>
 </body>
 </html>
