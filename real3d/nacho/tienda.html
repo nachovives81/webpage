@@ -1,0 +1,250 @@
+<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!-- Icono del carrito -->
+    <div class="cart-icon">
+        🛒<span class="cart-count">0</span>
+    </div>
+
+    <!-- Modal del carrito -->
+    <div class="cart-modal">
+        <h2>Carrito de Compras</h2>
+        <div id="cart-items"></div>
+        <button class="close-cart">Cerrar</button>
+    </div>
+
+    <!-- Modal del producto -->
+    <div id="productModal">
+        <div id="modal-body">
+            <!-- Aquí se muestra la información del producto -->
+        </div>
+        <button id="addToCartButton">Añadir al Carrito</button>
+        <button onclick="closeProductModal()">Cerrar</button>
+    </div>
+
+
+<!--<iframe src="https://heyzine.com/flip-book/c89030fa10.html" width="100%" height="100%" style="border:none;"></iframe>-->
+<!--<iframe src="https://heyzine.com/flip-book/a11e213914.html" width="100%" height="100%" style="border:none;"></iframe>-->
+<!--iframe src="https://flipflashpages.uniflip.com//3/623909/1133695/pub/html5.html#page/2" width="100%" height="100%" style="border:none;"></iframe>-->
+<!--iframe src="https://player.flipsnack.com?hash=QTk1QkQ2QkJEQzkrN3A1bzNsaWhwOA==" width="100%" height="90%" seamless="seamless" scrolling="no" frameBorder="0" allowFullScreen allow="autoplay; clipboard-read; clipboard-write"></iframe-->
+<iframe src="pdf_flipbook_HTML_content.html" width="100%" height="90%" style="border:none; padding-top: 50px;"></iframe>
+
+
+
+
+</body>
+
+<!-- Incluye jQuery en tu sitio web -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+<script>
+		// Función para cerrar el modal del producto
+        function closeProductModal() {
+			console.log("cerrar");
+            document.getElementById('productModal').style.display = 'none';
+        }
+		
+		        // Función para eliminar un producto del carrito
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartIcon();
+            updateCartModal();
+        }
+		
+$(document).ready(function() {
+	
+	window.addEventListener('message', function(event) {
+		// Si tienes varias fuentes, puedes filtrar aquí event.origin
+		var productId = event.data;
+
+		// Abre el modal o realiza la acción correspondiente
+		openProductModal(productId);
+	});
+	
+
+
+ 
+        // Variables para manejar el carrito
+        let cart = [];
+        const cartIcon = document.querySelector('.cart-icon');
+        const cartCount = document.querySelector('.cart-count');
+        const cartModal = document.querySelector('.cart-modal');
+        const cartItemsContainer = document.getElementById('cart-items');
+
+        // Función para añadir producto al carrito
+        function addToCart(productId, productName) {
+            let product = cart.find(item => item.id === productId);
+            if (product) {
+                product.quantity += 1;
+            } else {
+                cart.push({ id: productId, name: productName, quantity: 1 });
+            }
+            updateCartIcon();
+            updateCartModal();
+        }
+
+        // Función para actualizar el icono del carrito
+        function updateCartIcon() {
+            let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Función para actualizar el contenido del modal del carrito
+        function updateCartModal() {
+            cartItemsContainer.innerHTML = '';
+            cart.forEach(product => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    ${product.name} (x${product.quantity})
+                    <button onclick="removeFromCart('${product.id}')">Eliminar</button>
+                    <button onclick="addToCart('${product.id}', '${product.name}')">+1</button>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+        }
+
+
+        // Manejador para mostrar el modal del carrito
+        cartIcon.addEventListener('click', function() {
+            cartModal.style.display = 'block';
+        });
+
+        // Manejador para cerrar el modal del carrito
+        document.querySelector('.close-cart').addEventListener('click', function() {
+            cartModal.style.display = 'none';
+        });
+
+        // Función para abrir el modal del producto
+        function openProductModal(productId) {
+            // Aquí puedes realizar una llamada AJAX o cualquier otra operación
+            // para obtener los datos del producto según su ID.
+            const productName = "Producto " + productId; // Reemplaza esto con el nombre real del producto
+            document.getElementById('modal-body').textContent = "Información del producto: " + productName;
+
+            // Guardar el ID y nombre del producto en el botón "Añadir al Carrito"
+            document.getElementById('addToCartButton').setAttribute('data-product-id', productId);
+            document.getElementById('addToCartButton').setAttribute('data-product-name', productName);
+
+            // Mostrar el modal
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        // Manejador para añadir al carrito desde el modal del producto
+        document.getElementById('addToCartButton').addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            const productName = this.getAttribute('data-product-name');
+            addToCart(productId, productName);
+            closeProductModal(); // Opcional: cerrar el modal después de añadir al carrito
+        });
+});
+</script>
+
+<!-- Estilos básicos para el modal -->
+<style>
+        /* Estilos generales */
+        body {
+            font-family: 'Roboto', sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        /* Estilos del icono del carrito */
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .cart-count {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        /* Estilos del modal del carrito */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -20%);
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            z-index: 1000;
+            max-width: 400px;
+            width: 100%;
+        }
+        .cart-modal h2 {
+            margin-top: 0;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .cart-item button {
+            margin-left: 10px;
+        }
+        .cart-modal button.close-cart {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Estilos del modal de producto */
+        #productModal {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -30%);
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            z-index: 1000;
+            max-width: 400px;
+            width: 100%;
+        }
+        #productModal button {
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+
+
+
+</style>
+
+
+</html>
+
